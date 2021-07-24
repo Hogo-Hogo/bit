@@ -1,0 +1,4 @@
+Table structure:
+url {
+alias(VARCHAR(100)
+cil(LONGTEXT)

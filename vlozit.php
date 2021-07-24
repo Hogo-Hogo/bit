@@ -39,40 +39,8 @@
   <p>Z vámi vybraného aliasu bude odebrána diakritika a speciální znaky budou nahrazeny mezerami. Je nutné zadat celou adresu (s http(s)://), jinak to nepřesměruje. Celá adresa se zbarví do zelena. ;-)</p>
   <form method="post" action="#"> 
     URL ke zkrácení: <input type="url" placeholder="https://www.example.com" name="cil" class="textarea x" required oninput="coKdyby(this)" onpaste="zjistit(this)"><br> 
- <script>
- function coKdyby(pole) {
-    var url = pole.value;
-    if (url.match(/\.(cz|com|net|info|org|biz|sk|eu)\/?$/)) {
-        zjistit(pole);
-    }
-}
-
-function http(url) {
-    if (url.match(/https?:\/\//)) {
-        return url;
-    }
-    else {
-        return "http://" + url;
-    }
-}
-
-function domain(url) {
-    var adresa = url;
-    var odkaz = document.createElement("a");
-    odkaz.href = adresa;    
-    return odkaz.protocol + "//" + odkaz.hostname;
-}
-
-function zjistit(pole) {
-    var host = domain(http(pole.value));
-    pole.previousSibling.style.backgroundImage = "url(" + host + "/favicon.ico)";  
-}
-</script>  http://bit.wz.cz/<input type="text" name="alias" required value="<?php 
-include_once 'config.php';
-$sql = "SELECT * FROM abc ORDER BY RAND() LIMIT 4";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {  echo $row['l']; }}?>" class="textarea x"><br> 
+ http://url.com/<input type="text" name="alias" required value="<?php 
+echo mt_rand(1000, 9999); ?>" class="textarea x"><br> 
 
 <button type="submit" class="prehled">Zkrátit!</button> </form>
 <?php  
@@ -90,7 +58,7 @@ $alias = htmlspecialchars($alias);
 $cil = htmlspecialchars($cil); 
 $sql = "INSERT INTO url (alias, cil) VALUES ('$alias', '$cil')";
 if(mysqli_query($conn, $sql)) {
-   ?>Odkaz je dostupný na adrese http://bit.wz.cz/<?php echo $alias; ?>
+   ?>Odkaz je dostupný na adrese url.com/<?php echo $alias; ?>
 <br><br><input type="text" class="textarea zkopirovat x" style="font-size: 14px; background: #222; color: white; border-radius: 2em; text-align: center" value="http://bit.wz.cz/<?php echo $alias;?>" readonly onclick="this.select(1);">
 <script>
 function zkopirovat(el) {  
